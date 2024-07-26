@@ -21,21 +21,13 @@ public class CHLB extends AbstractExtension {
 	private static Consumer cons;
 
 	public Version getVersion()  {
-		return new SimpleVersion(0,2,1);
+		return new SimpleVersion(0,2,2);
 	}
 
 	@Override
 	public void onStartup() {
-		CommandHelperPlugin chp = CommandHelperPlugin.self;
 		try {
 			Static.checkPlugin("LogBlock", Target.UNKNOWN);
-			Plugin pl = chp.getServer().getPluginManager().getPlugin("LogBlock");
-			if (pl instanceof LogBlock) {
-				lb = (LogBlock) pl;
-				cons = lb.getConsumer();
-			} else {
-				throw new CREInvalidPluginException("", Target.UNKNOWN);
-			}
 			Static.getLogger().info("CHLogBlock " + getVersion() + " loaded.");
 		} catch (ConfigRuntimeException cre) {
 			Static.getLogger().warning("LogBlock not found, CHLogblock cannot function!");
@@ -46,12 +38,23 @@ public class CHLB extends AbstractExtension {
 	public void onShutdown() {
 		Static.getLogger().info("CHLogBlock " + getVersion() + " unloaded.");
 	}
-	
+
 	public static Consumer getConsumer() {
+		if(cons == null) {
+			cons = getLB().getConsumer();
+		}
 		return cons;
 	}
-	
+
 	public static LogBlock getLB() {
+		if(lb == null) {
+			Plugin pl = CommandHelperPlugin.self.getServer().getPluginManager().getPlugin("LogBlock");
+			if (pl instanceof LogBlock) {
+				lb = (LogBlock) pl;
+			} else {
+				throw new CREInvalidPluginException("", Target.UNKNOWN);
+			}
+		}
 		return lb;
 	}
 }
