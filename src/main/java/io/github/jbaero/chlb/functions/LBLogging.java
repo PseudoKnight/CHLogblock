@@ -23,6 +23,8 @@ import com.laytonsmith.core.natives.interfaces.Mixed;
 import de.diddiz.LogBlock.Actor;
 import de.diddiz.LogBlock.Consumer;
 import io.github.jbaero.chlb.CHLB;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
@@ -115,24 +117,22 @@ public class LBLogging {
 			String p = args[0].val();
 			MCLocation loc = ObjectGenerator.GetGenerator().location(args[1], null, t);
 			BlockState blockState = ((BukkitMCLocation) loc).asLocation().getBlock().getState();
-			if (blockState instanceof Sign) {
-				Sign sign = (Sign) blockState;
-				if (args.length >= 3) {
-					if (args[2] instanceof CArray) {
-						CArray lines = ((CArray) args[2]);
-						for (int i = 0; i < 4; i++) {
-							if (lines.containsKey(i)) {
-								sign.setLine(i, lines.get(i, t).val());
-							}
-						}
-					} else {
-						throw new CREFormatException("Expected an array of lines on the sign", t);
-					}
-				}
-				getConsumer(t).queueSignBreak(new Actor(p), sign);
-			} else {
+			if(!(blockState instanceof Sign)) {
 				throw new CREIllegalArgumentException("The location specified is not a sign.", t);
 			}
+			Sign sign = (Sign) blockState;
+			if(args.length >= 3) {
+				if(!(args[2] instanceof CArray)) {
+					throw new CREFormatException("Expected an array of lines on the sign", t);
+				}
+				CArray lines = ((CArray) args[2]);
+				for (int i = 0; i < 4; i++) {
+					if (lines.containsKey(i)) {
+						sign.setLine(i, lines.get(i, t).val());
+					}
+				}
+			}
+			getConsumer(t).queueBlockBreak(new Actor(p), sign);
 			return CVoid.VOID;
 		}
 
@@ -229,25 +229,24 @@ public class LBLogging {
 			Static.checkPlugin("LogBlock", t);
 			String p = args[0].val();
 			MCLocation loc = ObjectGenerator.GetGenerator().location(args[1], null, t);
-			BlockState blockState = ((BukkitMCLocation) loc).asLocation().getBlock().getState();
-			if (blockState instanceof Sign) {
-				Sign sign = (Sign) blockState;
-				if (args.length >= 3) {
-					if (args[2] instanceof CArray) {
-						CArray lines = ((CArray) args[2]);
-						for (int i = 0; i < 4; i++) {
-							if (lines.containsKey(i)) {
-								sign.setLine(i, lines.get(i, t).val());
-							}
-						}
-					} else {
-						throw new CREFormatException("Expected an array of lines on the sign", t);
-					}
-				}
-				getConsumer(t).queueSignPlace(new Actor(p), sign);
-			} else {
+			Block block = ((BukkitMCLocation) loc).asLocation().getBlock();
+			BlockState blockState = block.getState();
+			if(!(blockState instanceof Sign)) {
 				throw new CREIllegalArgumentException("The location specified is not a sign.", t);
 			}
+			Sign sign = (Sign) blockState;
+			if(args.length >= 3) {
+				if(!(args[2] instanceof CArray)) {
+					throw new CREFormatException("Expected an array of lines on the sign", t);
+				}
+				CArray lines = ((CArray) args[2]);
+				for (int i = 0; i < 4; i++) {
+					if(lines.containsKey(i)) {
+						sign.setLine(i, lines.get(i, t).val());
+					}
+				}
+			}
+			getConsumer(t).queueSignChange(new Actor(p), (Location) loc.getHandle(), block.getBlockData(), sign.getLines());
 			return CVoid.VOID;
 		}
 

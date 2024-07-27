@@ -15,7 +15,8 @@ import com.laytonsmith.core.natives.interfaces.Mixed;
 import de.diddiz.LogBlock.LogBlock;
 import de.diddiz.LogBlock.QueryParams;
 import de.diddiz.LogBlock.QueryParams.BlockChangeType;
-import de.diddiz.worldedit.CuboidRegion;
+import de.diddiz.util.CuboidRegion;
+import de.diddiz.worldedit.WorldEditHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class LBOG {
     				queryParams.setSelection(worldEditSelection);
     			} else {
     				MCPlayer player = Static.GetPlayer(argParams.get("sel", t), t);
-					worldEditSelection = CuboidRegion.fromPlayerSelection(((BukkitMCPlayer) player)._Player());
+					worldEditSelection = WorldEditHelper.getSelectedRegion(((BukkitMCPlayer) player)._Player());
     				queryParams.setSelection(worldEditSelection);
     			}
     		}

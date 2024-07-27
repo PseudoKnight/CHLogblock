@@ -10,7 +10,6 @@ public enum LBColumns {
 	KILLER,
 	MESSAGE,
 	PLAYER,
-	SIGNTEXT,
 	TYPE,
 	VICTIM,
 	WEAPON

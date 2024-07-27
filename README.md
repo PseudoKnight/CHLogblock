@@ -18,8 +18,9 @@ to include data from. Columns available are CHESTACCESS, COORDS, COUNT,
 DATA, DATE, ID, KILLER, MESSAGE, PLAYER, TYPE, VICTIM, and WEAPON.
 The 'changetype' parameter can be ALL, BOTH, CHESTACCESS, CREATED,
 DESTROYED, CHAT, KILLS, ENTITIES, ENTITIES_CREATED, or ENTITIES_KILLED.
-The other available parameters are 'location' (with optional 'radius'),
-'players', 'world', 'since', 'before', and 'limit'.
+The 'location' (with optional 'radius') can be included, or alternatively a 'sel' value
+that can be either a pair of location corners or null to use the current WorldEdit selection.
+The other available parameters are 'players', 'world', 'since', 'before', and 'limit'."
 
 ## LBLogging
 ### lb_log_break

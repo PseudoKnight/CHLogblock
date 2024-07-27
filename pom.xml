@@ -27,10 +27,10 @@
 		<dependency>
 			<groupId>de.diddiz</groupId>
 			<artifactId>logblock</artifactId>
-			<version>1.13.2-SNAPSHOT</version>
+			<version>1.14.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	<version>0.2.2</version>
+	<version>0.3.0</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
