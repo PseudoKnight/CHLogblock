@@ -42,19 +42,21 @@ You can choose to specify the BlockData of the block being placed.
 ### lb_log_break_sign
 **Returns**: void
 
-**Args**: playerName, locationArray, [array]
+**Args**: playerName, locationArray, [frontLines], [backLines]
 
 **Description**: Manually logs a sign being broken at a location.
-The third param is an array of lines on the sign, defaulting to current lines.
+The third and fourth params are arrays of lines for the front and back sides of the sign,
+defaulting to current lines on the sign.
 Note 1: An error will be thrown if the specified location is not a sign.
 Note 2: Specifying lines will update the physical sign as well.
 
 ### lb_log_place_sign
 **Returns**: void
 
-**Args**: playerName, locationArray, [array]
+**Args**: playerName, locationArray, [frontLines], [backLines]
 
 **Description**: Manually logs a sign being placed at a location.
-The third param is an array of lines on the sign, defaulting to current lines.
+The third and fourth params are arrays of lines for the front and back sides of the sign,
+defaulting to current lines on the sign.
 Note 1: An error will be thrown if the specified location is not a sign.
 Note 2: Specifying lines will update the physical sign as well.

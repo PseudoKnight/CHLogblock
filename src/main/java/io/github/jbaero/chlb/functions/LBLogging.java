@@ -28,6 +28,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 
 public class LBLogging {
 	
@@ -122,13 +124,26 @@ public class LBLogging {
 			}
 			Sign sign = (Sign) blockState;
 			if(args.length >= 3) {
+				SignSide front = sign.getSide(Side.FRONT);
 				if(!(args[2] instanceof CArray)) {
-					throw new CREFormatException("Expected an array of lines on the sign", t);
+					throw new CREFormatException("Expected an array of strings for the front side of sign", t);
 				}
-				CArray lines = ((CArray) args[2]);
+				CArray frontLines = ((CArray) args[2]);
 				for (int i = 0; i < 4; i++) {
-					if (lines.containsKey(i)) {
-						sign.setLine(i, lines.get(i, t).val());
+					if(frontLines.containsKey(i)) {
+						front.setLine(i, frontLines.get(i, t).val());
+					}
+				}
+				if(args.length == 4) {
+					SignSide back = sign.getSide(Side.BACK);
+					if(!(args[3] instanceof CArray)) {
+						throw new CREFormatException("Expected an array of strings for the back side of sign", t);
+					}
+					CArray backLines = ((CArray) args[3]);
+					for (int i = 0; i < 4; i++) {
+						if(backLines.containsKey(i)) {
+							back.setLine(i, backLines.get(i, t).val());
+						}
 					}
 				}
 			}
@@ -141,12 +156,13 @@ public class LBLogging {
 		}
 
 		public Integer[] numArgs() {
-			return new  Integer[]{2, 3};
+			return new  Integer[]{2, 3, 4};
 		}
 
 		public String docs() {
-			return "void {playerName, locationArray, [array]} Manually logs a sign being broken at a location."
-					+ " The third param is an array of lines on the sign, defaulting to current lines."
+			return "void {playerName, locationArray, [frontLines], [backLines]} Manually logs a sign being broken at a location."
+					+ " The third and fourth params are arrays of lines for the front and back sides of the sign,"
+					+ " defaulting to current lines on the sign."
 					+ " Note 1: An error will be thrown if the specified location is not a sign."
 					+ " Note 2: Specifying lines will update the physical sign as well.";
 		}
@@ -236,17 +252,30 @@ public class LBLogging {
 			}
 			Sign sign = (Sign) blockState;
 			if(args.length >= 3) {
+				SignSide front = sign.getSide(Side.FRONT);
 				if(!(args[2] instanceof CArray)) {
-					throw new CREFormatException("Expected an array of lines on the sign", t);
+					throw new CREFormatException("Expected an array of strings for the front side of sign", t);
 				}
-				CArray lines = ((CArray) args[2]);
+				CArray frontLines = ((CArray) args[2]);
 				for (int i = 0; i < 4; i++) {
-					if(lines.containsKey(i)) {
-						sign.setLine(i, lines.get(i, t).val());
+					if(frontLines.containsKey(i)) {
+						front.setLine(i, frontLines.get(i, t).val());
+					}
+				}
+				if(args.length == 4) {
+					SignSide back = sign.getSide(Side.BACK);
+					if(!(args[3] instanceof CArray)) {
+						throw new CREFormatException("Expected an array of strings for the back side of sign", t);
+					}
+					CArray backLines = ((CArray) args[3]);
+					for (int i = 0; i < 4; i++) {
+						if(backLines.containsKey(i)) {
+							back.setLine(i, backLines.get(i, t).val());
+						}
 					}
 				}
 			}
-			getConsumer(t).queueSignChange(new Actor(p), (Location) loc.getHandle(), block.getBlockData(), sign.getLines());
+			getConsumer(t).queueBlockPlace(new Actor(p), sign);
 			return CVoid.VOID;
 		}
 
@@ -255,12 +284,13 @@ public class LBLogging {
 		}
 
 		public Integer[] numArgs() {
-			return new  Integer[]{2, 3};
+			return new  Integer[]{2, 3, 4};
 		}
 
 		public String docs() {
-			return "void {playerName, locationArray, [array]} Manually logs a sign being placed at a location."
-					+ " The third param is an array of lines on the sign, defaulting to current lines."
+			return "void {playerName, locationArray, [frontLines], [backLines]} Manually logs a sign being placed at a location."
+					+ " The third and fourth params are arrays of lines for the front and back sides of the sign,"
+					+ " defaulting to current lines on the sign."
 					+ " Note 1: An error will be thrown if the specified location is not a sign."
 					+ " Note 2: Specifying lines will update the physical sign as well.";
 		}

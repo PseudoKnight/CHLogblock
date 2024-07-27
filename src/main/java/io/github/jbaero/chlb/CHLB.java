@@ -21,7 +21,7 @@ public class CHLB extends AbstractExtension {
 	private static Consumer cons;
 
 	public Version getVersion()  {
-		return new SimpleVersion(0,4,0);
+		return new SimpleVersion(0,5,0);
 	}
 
 	@Override
