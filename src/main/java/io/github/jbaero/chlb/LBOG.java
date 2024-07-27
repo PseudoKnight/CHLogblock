@@ -15,8 +15,8 @@ import com.laytonsmith.core.natives.interfaces.Mixed;
 import de.diddiz.LogBlock.LogBlock;
 import de.diddiz.LogBlock.QueryParams;
 import de.diddiz.LogBlock.QueryParams.BlockChangeType;
-import de.diddiz.util.CuboidRegion;
-import de.diddiz.worldedit.WorldEditHelper;
+import de.diddiz.LogBlock.util.CuboidRegion;
+import de.diddiz.LogBlock.worldedit.WorldEditHelper;
 
 import java.util.ArrayList;
 import java.util.List;
